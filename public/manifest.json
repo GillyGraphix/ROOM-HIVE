@@ -1,0 +1,20 @@
+{
+  "short_name": "RoomHive",
+  "name": "RoomHive PRO Hotel Manager",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#18365c",
+  "theme_color": "#18365c",
+  "display": "standalone"
+}
