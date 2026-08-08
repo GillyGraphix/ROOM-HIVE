@@ -37,8 +37,8 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-900 px-4">
-      <div className="w-full max-w-md p-8 bg-white rounded-2xl shadow-2xl border border-slate-800">
+    <div className="flex items-center justify-center min-h-[100dvh] bg-slate-900 px-4 py-10 overflow-y-auto">
+      <div className="w-full max-w-md p-6 md:p-8 bg-white rounded-2xl shadow-2xl border border-slate-800 my-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-black tracking-wider" style={{ color: '#18365c' }}>
             ROOMHIVE <span className="text-xs px-2 py-0.5 rounded text-white font-bold" style={{ backgroundColor: '#1c78b9' }}>PRO</span>
@@ -101,7 +101,7 @@ export default function Login({ onLogin }) {
           <button 
             type="submit"
             disabled={loading}
-            className="w-full py-3 text-white font-bold rounded-lg transition-all duration-300 shadow-md hover:opacity-90 text-sm mt-2"
+            className="w-full py-3 text-white font-bold rounded-lg transition-all duration-300 shadow-md hover:opacity-90 text-sm mt-4"
             style={{ backgroundColor: '#1c78b9' }}
           >
             {loading ? 'Signing In...' : 'Sign In'}

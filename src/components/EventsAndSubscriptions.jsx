@@ -73,9 +73,14 @@ export default function EventsAndSubscriptions() {
   const handleAddItem = async (e) => {
     e.preventDefault();
     
-    // Tumeondoa startDate kwenye hii validation maana tunai-generate kiotomatiki
     if (!itemName || !endDate) {
-      Swal.fire({ icon: 'warning', title: 'Missing Info', text: 'Please fill in the Title and Target Date.' });
+      Swal.fire({ 
+        icon: 'warning', 
+        title: 'Missing Info', 
+        text: 'Please fill in the Title and Target Date.',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#18365c'
+      });
       return;
     }
 
@@ -85,7 +90,7 @@ export default function EventsAndSubscriptions() {
       id: Date.now(),
       type: itemType,
       name: itemName,
-      start_date: todayDate, // Auto-generates today's date for the database
+      start_date: todayDate,
       end_date: endDate,
       cost: cost || 'Free / Not Specified'
     };
@@ -93,7 +98,13 @@ export default function EventsAndSubscriptions() {
     const { error } = await supabase.from('events_subscriptions').insert([newItemPayload]);
 
     if (error) {
-      Swal.fire({ icon: 'error', title: 'Database Error', text: error.message });
+      Swal.fire({ 
+        icon: 'error', 
+        title: 'Database Error', 
+        text: error.message,
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#e34027' 
+      });
       return;
     }
 
@@ -108,9 +119,10 @@ export default function EventsAndSubscriptions() {
     Swal.fire({
       icon: 'success',
       title: 'Reminder Saved',
-      text: 'Your event or subscription has been saved to Supabase successfully.',
-      timer: 1500,
-      showConfirmButton: false
+      text: 'Your event or subscription has been saved successfully.',
+      showConfirmButton: true,
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#1c78b9'
     });
   };
 
@@ -128,7 +140,13 @@ export default function EventsAndSubscriptions() {
       if (result.isConfirmed) {
         const { error } = await supabase.from('events_subscriptions').delete().eq('id', id);
         if (error) {
-          Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+          Swal.fire({ 
+            icon: 'error', 
+            title: 'Error', 
+            text: error.message,
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#e34027' 
+          });
           return;
         }
         fetchItems();
@@ -136,7 +154,8 @@ export default function EventsAndSubscriptions() {
           title: 'Deleted!',
           text: 'The record has been removed.',
           icon: 'success',
-          confirmButtonColor: '#1c78b9'
+          confirmButtonColor: '#1c78b9',
+          confirmButtonText: 'OK'
         });
       }
     });

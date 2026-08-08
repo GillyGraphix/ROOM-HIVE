@@ -130,6 +130,7 @@ export default function Dashboard() {
         icon: 'error',
         title: 'Invalid Date',
         text: 'Check-out date must be strictly after the Check-In date.',
+        confirmButtonText: 'OK',
         confirmButtonColor: '#18365c'
       });
       return;
@@ -140,6 +141,7 @@ export default function Dashboard() {
         icon: 'warning',
         title: 'Insufficient Rooms!',
         text: `For ${formatToDDMMYYYY(filterDate)}, only ${availableRooms[roomType]} ${roomType}(s) are currently available.`,
+        confirmButtonText: 'OK',
         confirmButtonColor: '#18365c'
       });
       return;
@@ -159,7 +161,13 @@ export default function Dashboard() {
     const { error } = await supabase.from('bookings').insert([newBookingPayload]);
 
     if (error) {
-      Swal.fire({ icon: 'error', title: 'Database Error', text: error.message });
+      Swal.fire({ 
+        icon: 'error', 
+        title: 'Database Error', 
+        text: error.message,
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#e34027' 
+      });
       return;
     }
 
@@ -177,9 +185,10 @@ export default function Dashboard() {
     Swal.fire({
       icon: 'success',
       title: 'Booking Confirmed',
-      text: 'The guest has been successfully saved to Supabase!',
-      timer: 1500,
-      showConfirmButton: false
+      text: 'The guest has been successfully saved',
+      showConfirmButton: true,
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#1c78b9'
     });
   };
 
@@ -198,7 +207,13 @@ export default function Dashboard() {
       if (result.isConfirmed) {
         const { error } = await supabase.from('bookings').delete().eq('id', id);
         if (error) {
-          Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+          Swal.fire({ 
+            icon: 'error', 
+            title: 'Error', 
+            text: error.message,
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#e34027' 
+          });
           return;
         }
         fetchBookings();
@@ -206,6 +221,7 @@ export default function Dashboard() {
           title: 'Deleted!',
           text: 'The booking has been completely removed.',
           icon: 'success',
+          confirmButtonText: 'OK',
           confirmButtonColor: '#1c78b9'
         });
       }
@@ -227,6 +243,7 @@ export default function Dashboard() {
         icon: 'error',
         title: 'Action Denied',
         text: 'Days cannot be reduced further. Check-out must remain ahead of Check-In.',
+        confirmButtonText: 'OK',
         confirmButtonColor: '#e34027'
       });
       return;
@@ -239,7 +256,13 @@ export default function Dashboard() {
 
     const { error } = await supabase.from('bookings').update({ check_out: newCheckOut }).eq('id', id);
     if (error) {
-      Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+      Swal.fire({ 
+        icon: 'error', 
+        title: 'Error', 
+        text: error.message,
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#e34027' 
+      });
       return;
     }
     fetchBookings();
