@@ -1,16 +1,36 @@
 import { useState } from 'react';
+import { supabase } from '../supabaseClient';
 
 export default function Login({ onLogin }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    if (username === 'reception' && password === 'roomhive2026') {
-      onLogin(true);
-    } else {
-      setError('Invalid username or password, please try again!');
+    setError('');
+    setLoading(true);
+
+    try {
+      // Tunatafuta kama username na password zinalingana na zilizoko Supabase
+      const { data, error } = await supabase
+        .from('users')
+        .select('*')
+        .eq('username', username)
+        .eq('password', password)
+        .single();
+
+      if (error || !data) {
+        setError('Invalid username or password, please try again!');
+      } else {
+        onLogin(true);
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('An error occurred during login.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,7 +59,7 @@ export default function Login({ onLogin }) {
               onChange={(e) => setUsername(e.target.value)}
               required
               className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none text-slate-800 bg-slate-50 text-sm"
-              placeholder="e.g. reception"
+              placeholder="e.g. Gazella"
             />
           </div>
           <div>
@@ -55,10 +75,11 @@ export default function Login({ onLogin }) {
           </div>
           <button 
             type="submit"
+            disabled={loading}
             className="w-full py-3 text-white font-bold rounded-lg transition-all duration-300 shadow-md hover:opacity-90 text-sm"
             style={{ backgroundColor: '#1c78b9' }}
           >
-            Sign In
+            {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
       </div>
